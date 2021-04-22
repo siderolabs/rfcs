@@ -1,30 +1,51 @@
 # Software Supply Chain Integrity
 
-## Overview
+## Summary
 
 This process is recommended for any binaries, that if compromised, could result
 in a loss of funds exceeding $1,000,000 which is the rough level where
 incidents of violent coercion or deployments of expensive ($200k+ per Zerodium)
-"zero-day" exploits have been seen in the financial technology sector.
+"zero-day" exploits have been seen in our industry.
 
-This could be an operating system image, firmware for a high value
-cryptographic signing system, medical equipment control software, flight
-navigation systemes, etc.
+It is reasonable to expect any privileged general purpouse OS kernels, tools,
+or binaries may in some use cases have access to memory that hold high value
+secrets. This makes such binaries and those that maintain them significant
+targets for supply chain attacks by malicious adversaries be it covert via a
+0day of overt via violence.
 
-Notably this document seeks to largely mitigate all classes of supply chain
-attack we have seen deployed in the wild with high accountability build and
-release processes.
+This document seeks to largely mitigate all classes of supply chain attack we
+have seen deployed in the wild with high accountability build and release
+processes.
 
-## Case Studies
+## Motivation
 
+Adversaries are demonstrating an increased willingness to resort to supply
+chain attacks to gain value from software systems.
+
+Examples:
 * [CI/CD system compromised by covert and sophisticated rootkit](https://igor-blue.github.io/2021/03/24/apt1.html)
-* [Trader tortured for $1,000,000 in bitcoin](https://www.ccn.com/dutch-bitcoin-trader-suffers-brutal-torture-with-a-heavy-drill-in-violent-robbery/)
 * [NPM supply chain attack on CoPay wallets](https://medium.com/@hkparker/analysis-of-a-supply-chain-attack-2bd8fa8286ac)
+* [Web analytics supply chain attack deployed on Gate.io exchange](https://www.welivesecurity.com/2018/11/06/supply-chain-attack-cryptocurrency-exchange-gate-io/)
 * [0day in Firefox used to attack Coinbase](https://www.zdnet.com/article/firefox-zero-day-was-used-in-attack-against-coinbase-employees-not-its-users/)
 * [Ruby Gem Supply chain attack to facilitate cryptoasset theft via clipboards](https://www.bleepingcomputer.com/news/security/malicious-rubygems-packages-used-in-cryptocurrency-supply-chain-attack/)
-* [Web analytics supply chain attack deployed on Gate.io exchange](https://www.welivesecurity.com/2018/11/06/supply-chain-attack-cryptocurrency-exchange-gate-io/)
 
-## Threat Model
+Worse even than this, when such vectors are not readily viable, some are even
+willing to resort to physical violence to just to get a signature from a
+private key that can directly or indirectly control significant value.
+
+Examples:
+* [Physical Bitcoin Attacks](https://github.com/jlopp/physical-bitcoin-attacks/blob/master/README.md)
+* [Violent datacenter robbery with hostages](https://www.computerworld.com/article/2538534/data-center-robbery-leads-to-new-thinking-on-security.html)
+* [History of datacenter break-ins](https://www.hostdime.com/blog/server-room-security-colocation/)
+
+Given this we should expect that humans in control of any single points of
+failure in a software ecosystem that controls a significant amount amount of
+value are placing themselves at substantial personal risk.
+
+To address this we must avoid trusting any single human or any system they
+control by design, in order to protect those individuals and downstream users.
+
+## Assumptions
 
 * Any one human or computer involved in the supply chain is compromised
 * All systems managed by a single party (IT, third parties) are compromised
@@ -62,7 +83,7 @@ met in any order or cadence desired.
 * Only code required for sensitive operation SHOULD be present
   * Example: A server has no need for sound card drivers
 
-## Implementation
+## Design
 
 Many implementations are possible under the above requirements and assumptions
 however the following opinionated workflow can be used as a reference to
@@ -139,29 +160,10 @@ These key words correspond to their IETF definitions per RFC2119
 Small form factor HSM capable of doing common required cryptographic operations
 such as GnuPG smartcard emulation, TOTP, challenge/response, etc.
 
-The following devices are recommended for each respective use case.
+## References
 
-#### WebAuthN / U2F
-  * Yubikey 5+
-  * u2f-zero
-  * Nitrokey
-  * OnlyKey
-  * ChromeOS Fingerprint ID
-  * Password Management
-  * Trezor Model T
-  * Leger Nano X
-  * Mooltipass
-
-#### Encryption/Decryption/SSH
-  * Yubikey 5+
-  * Trezor Model T
-  * Leger Nano X
-
-#### Firmware Attestation
-  * Librem Key
-  * Nitrokey
-
-## Disclaimers
-
-Nothing in this document is proprietary in nature and subsets or variations of
-these tactics are in use at several organizations.
+* [Secure Apt](https://wiki.debian.org/SecureApt)
+* [Bitcoin Release Process](https://github.com/bitcoin/bitcoin/blob/master/doc/release-process.md)
+* [Arch Linux Package Signing](https://wiki.archlinux.org/index.php/Pacman/Package_signing)
+* [F-Droid Reproducible Builds](https://f-droid.org/en/docs/Reproducible_Builds/)
+* [Fedora Release Engineering](https://docs.pagure.org/releng/)
