@@ -110,14 +110,7 @@ flexible setup that requires more up front hardware and work.
   * GnuPG 2.0+
     * MacOS or Linux device
 
-#### PGP
-
-##### Key Properties
-  * RSA4096
-    * Wide compatibility
-    * 20+ years of security research
-
-##### Generation
+### Generation
 
 1. Insert Yubikey into workstation
 2. Generate keychain
@@ -313,7 +306,7 @@ publishing to a few major ones:
 
 Note: If you lose your public key you can -not- recover it from a Yubikey.
 
-##### Configuration
+### Configuration
 
 1. Configure shell to use yubikey for ssh
 
