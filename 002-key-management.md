@@ -433,5 +433,5 @@ projects.
 
 ## References
 
-[#! Key generation guide](https://github.com/hashbang/book/blob/master/content/docs/security/SSH.md)
-[gpg.wtf guide](https://gpg.wtf)
+* [#! Key generation guide](https://github.com/hashbang/book/blob/master/content/docs/security/SSH.md)
+* [gpg.wtf guide](https://gpg.wtf)
