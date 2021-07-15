@@ -3,17 +3,17 @@
 ## Summary
 
 This process is recommended for any binaries, that if compromised, could result
-in a loss of funds exceeding $1,000,000 which is the rough level where
+in a loss of funds exceeding $1,000,000, which is the rough level where
 incidents of violent coercion or deployments of expensive ($200k+ per Zerodium)
 "zero-day" exploits have been seen in our industry.
 
-It is reasonable to expect any privileged general purpouse OS kernels, tools,
-or binaries may in some use cases have access to memory that hold high value
+It is reasonable to expect any privileged general-purpose OS kernels, tools,
+or binaries may, in some use cases, have access to memory that holds a high value
 secrets. This makes such binaries and those that maintain them significant
-targets for supply chain attacks by malicious adversaries be it covert via a
+targets for supply chain attacks by malicious adversaries, be it covert via a
 0day of overt via violence.
 
-This document seeks to largely mitigate all classes of supply chain attack we
+This document seeks to largely mitigate all classes of supply chain attacks we
 have seen deployed in the wild with high accountability build and release
 processes.
 
@@ -30,27 +30,27 @@ Examples:
 * [Ruby Gem Supply chain attack to facilitate cryptoasset theft via clipboards](https://www.bleepingcomputer.com/news/security/malicious-rubygems-packages-used-in-cryptocurrency-supply-chain-attack/)
 
 Worse even than this, when such vectors are not readily viable, some are even
-willing to resort to physical violence to just to get a signature from a
-private key that can directly or indirectly control significant value.
+willing to resort to physical violence just to get a signature from a
+the private key that can directly or indirectly control significant value.
 
 Examples:
 * [Physical Bitcoin Attacks](https://github.com/jlopp/physical-bitcoin-attacks/blob/master/README.md)
 * [Violent datacenter robbery with hostages](https://www.computerworld.com/article/2538534/data-center-robbery-leads-to-new-thinking-on-security.html)
 * [History of datacenter break-ins](https://www.hostdime.com/blog/server-room-security-colocation/)
 
-Given this we should expect that humans in control of any single points of
-failure in a software ecosystem that controls a significant amount amount of
+Given this, we should expect that humans in control of any single point of
+failure in a software ecosystem that controls a significant amount of
 value are placing themselves at substantial personal risk.
 
-To address this we must avoid trusting any single human or any system they
-control by design, in order to protect those individuals and downstream users.
+To address this, we must avoid trusting any single human or any system they
+control by design in order to protect those individuals and downstream users.
 
 ## Assumptions
 
-* Any one human or computer involved in the supply chain is compromised
+* Any human or computer involved in the supply chain is compromised
 * All systems managed by a single party (IT, third parties) are compromised
 * Any code or binaries controlled by one system or party are compromised
-* All memory of all internet connected computers is visible to adversary
+* All memory of all internet-connected computers is visible to the adversary
 * Any logging or backups that are not signed are tampered with
 * Adversary wields a "zero-click" "Zero-Day" exploit for any system
 
@@ -59,25 +59,25 @@ control by design, in order to protect those individuals and downstream users.
 The following only applies if code is bound for production, and these can be
 met in any order or cadence desired.
 
-* Third party code:
-  * MUST have extensive and frequent review.
+* Third-party code:
+  * MUST have extensive and frequent reviews.
     * Example: The Linux kernel has well funded distributed review.
   * MUST be hash-pinned at known reviewed versions
   * MUST be at version with all known related security patches
   * SHOULD be latest versions if security disclosures lag behind releases
     * Example: The Linux kernel
-* First party code:
-  * MUST be signed in version control systems by well known author keys
-  * MUST be signed by separate subject matter expert after security review
+* First-party code:
+  * MUST be signed in version control systems by well-known author keys
+  * MUST be signed by a separate subject matter expert after a security review
 * All code MUST build deterministically
 * All binaries:
   * MUST be built and signed by multiple parties with no management overlay
     * Example: One build by IT, another by Infrastructure team managed CI/CD
-  * MUST be signed by well known keys signed by a common CA
+  * MUST be signed by well-known keys signed by a common CA
     * Example: PGP Smartcards signed under OpenPGP-CA.
 * All signing keys:
   * MUST be stored in approved PERSONAL HSMs
-  * MUST NOT ever come in contact with network accessible memory
+  * MUST NOT ever come in contact with network-accessible memory
 * All execution environments SHOULD be able to verify m-of-n binary signatures
   * Example: Custom Secure Boot verifies minimum signatures against CA
 * Only code required for sensitive operation SHOULD be present
@@ -86,18 +86,18 @@ met in any order or cadence desired.
 ## Design
 
 Many implementations are possible under the above requirements and assumptions
-however the following opinionated workflow can be used as a reference to
+however, the following opinionated workflow can be used as a reference to
 consider.
 
 ### Developer Workflow
 
 1. Software Engineer makes source code change
-    * Changes that bump third party dependencies should make them easy to review
+    * Changes that bump third-party dependencies should make them easy to review
       * Link to Changelog indicating this is the latest appropriate release
       * Links to evidence of third party review
       * Link to source of truth for hashes or keys as appropriate
       * Hash of commit or archive that is verified at build time
-      * Public key hashes of any keys that can be used to verify sources
+      * Public-key hashes of any keys that can be used to verify sources
     * Automated verification of hash and signature in build logic
 2. Software Engineer builds and tests changes locally
     * Local build should put output hashes of generated binaries for committing
@@ -110,14 +110,14 @@ consider.
 3. Builds binaries
 4. Verifies binary hashes match hashes in signed commit
 5. Runs test suite
-6. Signs binary with well known key in attached HSM
+6. Signs binary with a well-known key in attached HSM
 7. Publishes binary and signature to artifact storage
 8. Continuous Integration notifies project team of success/error of above steps
 
 ### Security Reviewer Workflow
 
 1. Reviews all code changes between release candidate tag and last commit
-2. Reviews all third party changes and evidence they are appropriate
+2. Reviews all third-party changes and evidence they are appropriate
 3. Appends tag signed with PERSONAL HSM to release candidate commit reviewed
 
 ### Release Engineer Workflow
@@ -131,14 +131,14 @@ consider.
 
 ### Continuous Deployment Workflow
 
-1. CD daemon for each environment monitors for new signed artifacts
+1. CD daemon for each environment monitors for newly signed artifacts
     * Development environments can use artifacts that are signed by any key
-    * Staging environments can use artifacts with any key, but with a RC tag
+    * Staging environments can use artifacts with any key, but with an RC tag
     * Production environments will use artifacts signed both a RE and CI key.
 2. CD daemon triggers rotation to new artifacts
-3. New systems SHOULD boot to low level bootloader image where possible
-    * Should be anchored with TPM as root of trust
-      * Example: Heads, safeboot, etc.
+3. New systems SHOULD boot to low-level bootloader image where possible
+    * Should be anchored with TPM as the root of trust
+      * Example: Heads, Safeboot, etc.
     * This image should rarely ever change.
 4. Bootloader image will:
     * Pull latest OS artifact and detached signatures
@@ -153,7 +153,7 @@ consider.
 
 ### MUST, MUST NOT, SHOULD, SHOULD NOT, MAY
 
-These key words correspond to their IETF definitions per RFC2119
+These keywords correspond to their IETF definitions per RFC2119
 
 ### PERSONAL HSM
 
