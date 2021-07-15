@@ -7,15 +7,15 @@ recommendations for key generation, trust bootstrapping, and management.
 
 ## Motivation
 
-Left to their own devices wide liberties can be taken with private key handling
-which can lead to substantial and non obvious risks.
+Left to their own devices, wide liberties can be taken with private key handling
+which can lead to substantial and non-obvious risks.
 
-For this reason we wish to clearly define a strategy for best practices.
+For this reason, we wish to clearly define a strategy for best practices.
 
 ## Assumptions
 
-* Any private key exposed to unreproducable binaries is compromised
-* Any private key exposed to internet connected memory is compromised
+* Any private key exposed to unreproducible binaries is compromised
+* Any private key exposed to internet-connected memory is compromised
 * Any private key that can be used without physical consent is compromised
 * Any key pair without physical backups will become irrecoverable at any time
 * Any public key not signed by peers or a well maintained CA is is an imposter
@@ -30,22 +30,22 @@ For this reason we wish to clearly define a strategy for best practices.
       * Deterministic OS image verified by at least one peer
       * Network devices physically disabled
       * External entropy source provided
-        * Examples: Infinite Noise, analog senors seeding /dev/random, etc
+        * Examples: Infinite Noise, analog sensors seeding /dev/random, etc
     * Inside PERSONAL HSM (Easy)
-      * Yubikeys enable simple one-command generation, but lack backup options
+      * Yubikeys enable simple one-command generation but lack backup options
       * Ledger provides on-device generation and backup generation
   * MUST be stored on PERSONAL HSMs
   * SHOULD maintain Master key and Subkeys on separate PERSONAL HSMs
   * SHOULD have strictly scoped and distinct master key and subkeys:
     * Master key only has "Certify" permission
-    * Subkeys for each of "Auth", "Sign" and "Encrypt"
+    * Subkeys for each of "Auth", "Sign", and "Encrypt"
   * SHOULD have a paper backup
     * BIP39 or raw GnuPG ASC exports possible
-    * Consider safety deposit box, high quailty safe, or Shamirs Secret Sharing
+    * Consider safety deposit box, high quality safe, or Shamir's Secret Sharing
 * All PERSONAL HSMs
   * MUST require physical interaction for each operation
   * MUST have a unique pin set for any access levels
-    * Examples: Admin, and User pins on Yubikey
+    * Examples: Admin and User pins on Yubikey
 
 ## Scope
 
@@ -79,9 +79,9 @@ The following is an opinionated set of defaults to consider that hit the MUST
 requirements while being maximally low friction.
 
 There are a number of alternative paths to hit the above MUST and SHOULD
-requirements an advanced raeder may consider, but they are out of scope for
+requirements an advanced reader may consider, but they are out of scope for
 this document. See the references section if you wish to pursue a highly
-flexible setup that requires more up front hardware and work.
+flexible setup that requires more upfront hardware and work.
 
 ### Requirements
   * 1+ Yubikey 5 series
@@ -112,7 +112,7 @@ flexible setup that requires more up front hardware and work.
 
 ### Generation
 
-1. Insert Yubikey into workstation
+1. Insert Yubikey into a workstation
 2. Generate keychain
 
     Example:
@@ -142,7 +142,7 @@ flexible setup that requires more up front hardware and work.
     Admin commands are allowed
 
     gpg/card> generate
-    Make off-card backup of encryption key? (Y/n) n
+    Make an off-card backup of encryption key? (Y/n) n
     Please specify how long the key should be valid.
              0 = key does not expire
           <n>  = key expires in n days
@@ -181,7 +181,7 @@ flexible setup that requires more up front hardware and work.
 
 3. Set personal details
 
-    This is optional, but can really help to disambiguate multiple keys or
+    This is optional but can really help to disambiguate multiple keys or
     perhaps get a lost key in an office returned to you.
 
     Example:
@@ -304,13 +304,13 @@ publishing to a few major ones:
     gpg --keyserver keyserver.ubuntu.com --send-key YOUR_KEY_ID
     ```
 
-Note: If you lose your public key you can -not- recover it from a Yubikey.
+Note: If you lose your public key, you can -not- recover it from a Yubikey.
 
 ### Configuration
 
 1. Configure shell to use yubikey for ssh
 
-    Add the following to your shell configuration file
+    Add the following to your shell configuration file:
 
     ```
     unset SSH_AGENT_PID
@@ -319,7 +319,7 @@ Note: If you lose your public key you can -not- recover it from a Yubikey.
     fi
     ```
 
-    Be sure to source this file or opin a new shell so this applies!
+    Be sure to source this file or open a new shell, so this applies!
 
 2. Configure VCS to use new ssh/gpg keys
 
@@ -386,7 +386,7 @@ Note: If you lose your public key you can -not- recover it from a Yubikey.
     git commit -m "Add keys"
     ```
 
-8. Have existing maintainer merge your key
+8. Have the existing maintainer merge your key
 
     ```
     git merge --no-ff add-keys-jdoe master
@@ -397,8 +397,8 @@ Note: If you lose your public key you can -not- recover it from a Yubikey.
 
 ## Drawbacks
 
-* Bulk key operations like ssh, file decryption etc will require many taps
-  * If you need this, pursue an advanced setup with an airgapped laptop
+* Bulk key operations like ssh, file decryption, etc. will require many taps
+  * If you need this, pursue an advanced setup with an air-gapped laptop
 * Windows support is poor
 * iOS support does not exist
   * Android is well supported if mobile use cases are required
@@ -406,15 +406,15 @@ Note: If you lose your public key you can -not- recover it from a Yubikey.
 ## Alternatives
 
 List any alternatives others have tried, including the current solution if
-there is one, to help others quickily catch up on how we got here.
+there is one, to help others quickly catch up on how we got here.
 
 ## Questions
 
-* How do we want to approach multisig?
+* How do we want to approach multi-sig?
   * distrust-foundation/Sig and hashbang/git-signatures approaches are options
   * Should likely address after the team has comfort with the scope of this doc
 * How do we want to approach release engineering?
-  * Should likely solve determinstic buids first
+  * Should likely solve deterministic builds first
   * Will need to decide on a single widely known release key
     * Who holds it?
     * Who should hold the revocation certificate as insurance against abuse?
