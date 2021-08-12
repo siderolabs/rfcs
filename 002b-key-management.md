@@ -52,9 +52,15 @@ For this reason, we wish to clearly define a strategy for best practices.
   * macOS: `brew install gnupg`.
 * PIN entry program:
   * macOS: `brew install pinentry-mac`.
-  * Linux: TODO.
+  * Linux: TODO?
 * Git.
-* No Yubico software like YubiKey Manager, `ykman`, etc is required.
+* If an older GnuPG is used, the [`ykman` command line tool](https://developers.yubico.com/yubikey-manager/) might be needed.
+  * It may be installed separately:
+    * macOS: `brew install ykman`.
+    * Linux: TODO?
+  * or as a part of [YubiKey Manager GUI program](https://www.yubico.com/support/download/yubikey-manager/):
+    * macOS `brew install yubico-yubikey-manager`.
+    * Linux: TODO?
 
 ### Key generation and basic distribution
 
@@ -217,6 +223,36 @@ gpg/card> uif 2 permanent
 gpg/card> uif 3 permanent
 ```
 
+If `uif` command is not present in this version of GnuPG, `ykman` tool should be used.
+
+> If `yubico-yubikey-manager` was installed on macOS, `ykman` should be invoked as
+> `'/Applications/YubiKey Manager.app/Contents/MacOS/ykman'`.
+
+```
+$ ykman openpgp keys set-touch sig fixed
+$ ykman openpgp keys set-touch enc fixed
+$ ykman openpgp keys set-touch aut fixed
+```
+
+The result can be verified with `ykman openpgp info`:
+
+```
+$ ykman openpgp info
+
+OpenPGP version: 3.4
+Application version: 5.2.7
+
+PIN tries remaining: 3
+Reset code tries remaining: 0
+Admin PIN tries remaining: 3
+
+Touch policies
+Signature key           On (fixed)
+Encryption key          On (fixed)
+Authentication key      On (fixed)
+Attestation key         Off
+```
+
 7. Check settings:
 
 ```
@@ -264,13 +300,13 @@ Check `Key attributes`, `UIF setting`, keys.
 8. Export your public key.
    Somewhat surprisingly, YubiKey does not store it, and it is required for working on another computer.
 
-```sh
+```
 $ gpg --armor --export D2356ADE54050F011923004F5F06850601C47617 > key.pgp
 ```
 
 On other machine import it and mark as ultimately trusted:
 
-```sh
+```
 $ gpg --armor --import key.pgp
 ```
 
@@ -344,7 +380,7 @@ On macOS:
 $ echo 'pinentry-program /usr/local/bin/pinentry-mac' > ~/.gnupg/gpg-agent.conf
 ```
 
-On Linux: TODO.
+On Linux: TODO?
 
 10. Configure git:
 
@@ -374,7 +410,7 @@ After that, a physical tap on the button on the YubiKey should be required.
 
 12. Distribute keys
 
-```sh
+```
 gpg --keyserver hkps://keys.openpgp.org --send-key D2356ADE54050F011923004F5F06850601C47617
 gpg --keyserver keyserver.ubuntu.com --send-key D2356ADE54050F011923004F5F06850601C47617
 ```
