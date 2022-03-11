@@ -225,6 +225,19 @@ $ gpg -a --export-secret-subkeys B44C2E4A > /Media/UsbStick/pgp/B44C2E4A.subkeys
 $ gpg -a --export B44C2E4A > /Media/UsbStick/pgp/B44C2E4A.public.asc
 ```
 
+Optionally backup signing subkey to be transmitted to other keyholders
+
+```
+$ gpg --import /Media/UsbStick/pgp/holder1.asc
+$ gpg --edit-key B44C2E4
+ > key 1
+ > passwd
+ (remove passphase)
+gpg --export-secret-subkeys B44C2E4A | \
+  gpg -ear HOLDER1FP > /Media/UsbStick/pgp/holder1-signing-subkey.asc
+```
+
+
 6. Write Signing Subkey to multiple Security Tokens
 
   ```
