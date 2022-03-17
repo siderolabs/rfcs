@@ -130,7 +130,7 @@ Default PIN: `123456`.
 Default Admin PIN: `12345678`.
 
 > Despite some guides claiming that PUK should be set too, [it has nothing to do with YubiKey's OpenPGP application](https://github.com/drduh/YubiKey-Guide/issues/271).
-> Reset code also should be set as [it is not useful for us](https://forum.yubico.com/viewtopicd01c.html?p=9055#p9055].
+> Reset code also should be set as [it is not useful for us](https://forum.yubico.com/viewtopicd01c.html?p=9055#p9055).
 
 4. Enable Curve 25519 key generation as it is [the most secure option](https://xkcd.com/285/):
 
@@ -377,7 +377,12 @@ gpg> quit
 
 On macOS:
 ```
-$ echo 'pinentry-program /usr/local/bin/pinentry-mac' > ~/.gnupg/gpg-agent.conf
+$ echo 'pinentry-program /usr/local/bin/pinentry-mac' >> ~/.gnupg/gpg-agent.conf
+```
+
+On macOS M1:
+```
+$ echo 'pinentry-program /opt/homebrew/bin/pinentry-mac' >> ~/.gnupg/gpg-agent.conf
 ```
 
 On Linux: TODO?
