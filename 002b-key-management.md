@@ -373,6 +373,8 @@ unless you restart the program.
 gpg> quit
 ```
 
+Check that private part stubs were imported as well by calling `gpg --list-secret-keys`. If not, call `gpg --card-status` and the import process should be complete.
+
 9. Configure GnuPG to use pinentry program:
 
 On macOS:
