@@ -50,17 +50,16 @@ For this reason, we wish to clearly define a strategy for best practices.
 * Linux or macOS.
 * GnuPG v2. Tested with version 2.3.1.
   * macOS: `brew install gnupg`.
+  * Fedora: `dnf install gnupg2
 * PIN entry program:
   * macOS: `brew install pinentry-mac`.
-  * Linux: TODO?
 * Git.
 * If an older GnuPG is used, the [`ykman` command line tool](https://developers.yubico.com/yubikey-manager/) might be needed.
   * It may be installed separately:
     * macOS: `brew install ykman`.
-    * Linux: TODO?
   * or as a part of [YubiKey Manager GUI program](https://www.yubico.com/support/download/yubikey-manager/):
     * macOS `brew install yubico-yubikey-manager`.
-    * Linux: TODO?
+    * Fedora: `dnf install yubikey-personalization-gui`.
 
 ### Key generation and basic distribution
 
@@ -103,6 +102,13 @@ gpg: Note: This command destroys all keys stored on the card!
 
 Continue? (y/N) y
 Really do a factory reset? (enter "yes") yes
+```
+
+On Fedora 38 the card was not detected until I disabled smart card integration:
+
+```bash
+echo disable-ccid >> ~/.gnupg/scdaemon.conf
+systemctl restart pcscd
 ```
 
 3. Set PIN and Admin PIN:
